@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {
   Button,
   View,
@@ -6,99 +6,170 @@ import {
   Text,
   StatusBar,
   SafeAreaView,
+  ScrollView,
+  Dimensions,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
-import styled from 'styled-components';
-import MyButton from './components/MyButton';
-// import {StatusBar} from 'expo-status-bar';
+import * as Location from 'expo-location';
+
+const {height: SCREEN_HEIGHT, width: SCREEN_WIDTH} = Dimensions.get('window');
+
+const API_KEY = 'ThisIsMockdata';
 
 function App() {
-  const name = 'Lorem Ipsum';
-
-  //StatusBar의 barStyle 속성이 들어있는 배열 생성
-  const styleTypes = ['default', 'dark-content', 'light-content'];
-  //hidden 속성을 변경할때마다 리렌더링하기 위한 useState() Hook
-  const [visibleStatusBar, setVisibleStatusBar] = useState(false);
-  //barStyle 속성을 변경할때마다 리렌더링하기 위한 useState() Hook
-  const [styleStatusBar, setStyleStatusBar] = useState(styleTypes[0]);
-
-  const changeVisibilityStatusBar = () => {
-    setVisibleStatusBar(!visibleStatusBar);
-  };
-
-  const changeStyleStatusBar = () => {
-    const styleId = styleTypes.indexOf(styleStatusBar) + 1;
-    //배열의 길이랑 같으면 인덱스를 0으로 초기화
-    if (styleId === styleTypes.length) {
-      return setStyleStatusBar(styleTypes[0]);
+  const [city, setCity] = useState('Loading...');
+  const [days, setDays] = useState([]);
+  const [ok, setOk] = useState(true);
+  const getWeather = async () => {
+    const {granted} = await Location.requestForegroundPermissionsAsync();
+    if (!granted) {
+      setOk(false);
     }
-    return setStyleStatusBar(styleTypes[styleId]);
+    const {
+      coords: {latitude, longitude},
+    } = await Location.getCurrentPositionAsync({accuracy: 5});
+    const location = await Location.reverseGeocodeAsync(
+      {latitude, longitude},
+      {useGoogleMaps: false},
+    );
+    setCity(location[0].city);
+    const response = fetch(
+      `weatherAPI?latitude=${latitude}&longitude=${longitude}&appid=${API_KEY}`,
+    );
+    const json = await response.json();
+    setDays(json.daily);
   };
-
+  useEffect(() => {
+    getWeather();
+  }, []);
   return (
-    // Fragment는 전체 화면을 덮는 큰 Wrapper
-    <Fragment>
-      <StatusBar
-        backgroundColor="blue"
-        barStyle={styleStatusBar}
-        hidden={visibleStatusBar}
-      />
-      <SafeAreaView style={{flex: 0, backgroundColor: 'red'}} />
-      {/* <SafeAreaView>아이폰의 노치 디자인 감안한 VIEW - View처럼 사용하면 된다 */}
-      {/* View는 div라고 생각하면 편하다 */}
-      <View style={styles.container}>
-        <Text style={styles.title}>
-          My name is {name === 'Junhong' ? 'Junhong Park' : 'React Native'}
-        </Text>
-        <Text style={styles.title}>
-          {(() => {
-            if (name === 'Junhong') {
-              return 'My name is Junhong Park';
-            } else if (name === 'Lorem Ipsum') {
-              return 'My name is Lorem Ipsum';
-            } else {
-              return 'My name is React Native';
-            }
-          })()}
-        </Text>
-        {name === 'Junhong' && (
-          <Text style={styles.title}>My name is Junhong</Text>
-        )}
-        {name !== 'Junhong' && (
-          <Text style={styles.title}>My name is not Junhong</Text>
-        )}
-        <MyText>This is BLUE</MyText>
-        {/* <StatusBar style="auto" /> */}
-        <MyButton title="Button" />
-        <Button
-          title="Toggle StatusBar"
-          onPress={() => changeVisibilityStatusBar()}
-        />
-        <Button
-          title="Change StatusBar Style"
-          onPress={() => changeStyleStatusBar()}
-        />
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" />
+      <View style={styles.city}>
+        <Text style={styles.cityName}>{city}</Text>
       </View>
+      <ScrollView
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false} //->page indicator no show
+        // indicatorStyle="white" ->page indecator style
+        contentContainerStyle={styles.weather}>
+        <View style={styles.day}>
+          {/* 기온 */}
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.temp}>27◦</Text>
+            <Text style={styles.icon}>☀︎</Text>
+          </View>
+          <Text style={styles.description}>Sunny</Text>
+          <Text style={styles.tinyText}>description</Text>
+        </View>
 
-      <SafeAreaView style={{flex: 0, backgroundColor: 'blue'}} />
-    </Fragment>
+        <View style={styles.day}>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.temp}>27◦</Text>
+            <Text style={styles.icon}>☀︎</Text>
+          </View>
+          <Text style={styles.description}>Sunny</Text>
+          <Text style={styles.tinyText}>description</Text>
+        </View>
+        <View style={styles.day}>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.temp}>27◦</Text>
+            <Text style={styles.icon}>☀︎</Text>
+          </View>
+          <Text style={styles.description}>Sunny</Text>
+          <Text style={styles.tinyText}>description</Text>
+        </View>
+        <View style={styles.day}>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.temp}>27◦</Text>
+            <Text style={styles.icon}>☀︎</Text>
+          </View>
+          <Text style={styles.description}>Sunny</Text>
+          <Text style={styles.tinyText}>description</Text>
+        </View>
+        <View style={styles.loading}>
+          {/* 로딩중일때 나오는 돌아가는 그림 */}
+          <ActivityIndicator
+            color="white"
+            style={{marginTop: 150}}
+            size="large"
+          />
+        </View>
+        {/* {days.length === 0 ? (
+          <View style={styles.day}>
+            <ActivityIndicator
+              color="white"
+              style={{marginTop: 10}}
+              size="large"
+            />
+          </View>
+        ) : (
+          days.map((day, index) => (
+            <View key={index} style={styles.day}>
+              <Text style={styles.temp}>
+                {parseFloat(day.temp.day).toFixed(1)}
+              </Text>
+              <Text style={styles.description}>{day.weather[0].main}</Text>
+              <Text style={styles.tinyText}>{day.weather[0].description}</Text>
+            </View>
+          ))
+        )} */}
+      </ScrollView>
+    </View>
   );
 }
-
-const MyText = styled.Text`
-  color: blue;
-  font-size: 20px;
-`;
+export default App;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'black',
+  },
+  city: {
+    flex: 1.2,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
   },
-  title: {
+  cityName: {
+    color: 'white',
+    fontSize: 58,
+    fontWeight: '500',
+  },
+  weather: {},
+  day: {
+    width: SCREEN_WIDTH,
+    alignItems: 'flex-start',
+    paddingHorizontal: 20,
+  },
+  loading: {
+    width: SCREEN_WIDTH,
+    alignItems: 'center',
+  },
+  temp: {
+    marginTop: 50,
+    fontWeight: '600',
+    fontSize: 100,
+    color: 'white',
+  },
+  icon: {
+    marginTop: 50,
+    fontWeight: '600',
+    color: 'white',
+    fontSize: 75,
+    marginLeft: 100,
+  },
+  description: {
+    marginTop: -10,
     fontSize: 30,
+    color: 'white',
+    fontWeight: '500',
+  },
+  tinyText: {
+    marginTop: -5,
+    fontSize: 25,
+    color: 'white',
+    fontWeight: '500',
   },
 });
-
-export default App;
