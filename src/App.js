@@ -21,6 +21,7 @@ function App() {
   const [city, setCity] = useState('Loading...');
   const [days, setDays] = useState([]);
   const [ok, setOk] = useState(true);
+  console.log(Location);
   const getWeather = async () => {
     const {granted} = await Location.requestForegroundPermissionsAsync();
     if (!granted) {
