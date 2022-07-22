@@ -1,13 +1,18 @@
-import * as React from 'react';
-import {Button, View, Text} from 'react-native';
+import React, {useState} from 'react';
+import {Button, View, Text, TextInput} from 'react-native';
 
 const HomeScreen = ({navigation, route}) => {
+  const [myValue, setmyValue] = useState('');
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Home Screen</Text>
+      <TextInput
+        style={{height: 20, backgroundColor: 'white', width: 100}}
+        onChangeText={value => setmyValue(value)}
+      />
       <Button
         title="Go to profile"
-        onPress={() => navigation.navigate('Profile')}
+        onPress={() => navigation.navigate('Profile', {myValue: myValue})}
       />
     </View>
   );
