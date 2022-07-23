@@ -3,7 +3,14 @@ import {createStackNavigator} from '@react-navigation/stack';
 import ProfileScreen from '../screens/Profile';
 import HomeScreen from '../screens/Home';
 
-const Stack = createStackNavigator();
+export type StackParamList = {
+  Home: undefined;
+  Profile: {
+    myValue: string;
+  };
+};
+
+const Stack = createStackNavigator<StackParamList>();
 
 const StackNavigation = () => {
   return (
