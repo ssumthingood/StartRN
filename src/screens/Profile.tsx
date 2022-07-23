@@ -1,7 +1,10 @@
 import React, {useState} from 'react';
-import {View, Fragment, Text, Button} from 'react-native';
+import {View, Text, Button} from 'react-native';
 
-const ProfileScreen = ({navigation, route}) => {
+const ProfileScreen = (
+  {navigation}: {navigation: any},
+  {route}: {route: any},
+) => {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>This is profile</Text>

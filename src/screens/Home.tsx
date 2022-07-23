@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Button, View, Text, TextInput} from 'react-native';
 
-const HomeScreen = ({navigation, route}) => {
+const HomeScreen = ({navigation}: {navigation: any}, {route}: {route: any}) => {
   const [myValue, setmyValue] = useState('');
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
