@@ -13,12 +13,17 @@ const HomeScreen = ({navigation}: Props) => {
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Home Screen</Text>
       <TextInput
+        value={myValue}
         style={{height: 20, backgroundColor: 'white', width: 100}}
         onChangeText={value => setmyValue(value)}
       />
       <Button
         title="Go to profile"
-        onPress={() => navigation.navigate('Profile', {myValue: myValue})}
+        onPress={() => {
+          const sendValue = myValue;
+          setmyValue('');
+          navigation.navigate('Profile', {myValue: sendValue});
+        }}
       />
     </View>
   );
