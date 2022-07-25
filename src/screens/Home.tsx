@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Button, View, Text, TextInput} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {StackParamList} from '../navigations/Stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Props {
   navigation: StackNavigationProp<StackParamList, 'Home'>;
@@ -15,7 +16,12 @@ const HomeScreen = ({navigation}: Props) => {
       <TextInput
         value={myValue}
         style={{height: 20, backgroundColor: 'white', width: 100}}
-        onChangeText={value => setmyValue(value)}
+        onChangeText={value => {
+          setmyValue(value);
+          AsyncStorage.setItem('prevValue', value, () => {
+            console.log(value);
+          });
+        }}
       />
       <Button
         title="Go to profile"
