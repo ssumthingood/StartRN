@@ -11,9 +11,9 @@ interface Props {
 }
 
 const ProfileScreen = (props: Props) => {
-  let prevalue;
+  const [prevalue, setPrevalue] = useState();
   AsyncStorage.getItem('prevValue', (err, result) => {
-    prevalue = result;
+    setPrevalue(result);
     console.log(prevalue);
   });
   return (
