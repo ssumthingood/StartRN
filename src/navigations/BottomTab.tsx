@@ -1,12 +1,16 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import ProfileScreen from '../screens/Profile';
-import HomeScreen from '../screens/Home';
+import {MainStackNavigator, ProfileStackNavigator} from './Stack';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigation = () => {
-  return <></>;
+  return (
+    <Tab.Navigator initialRouteName="Home">
+      <Tab.Screen name="Home" component={MainStackNavigator} />
+      <Tab.Screen name="Profile" component={ProfileStackNavigator} />
+    </Tab.Navigator>
+  );
 };
 
 export default BottomTabNavigation;

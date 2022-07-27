@@ -11,12 +11,15 @@ interface Props {
 }
 
 const ProfileScreen = (props: Props) => {
-  const [prevalue, setPrevalue] = useState();
-  AsyncStorage.getItem('prevValue', (err, result) => setPrevalue(result));
+  const [prevalue, setPrevalue] = useState<String | null | undefined>();
+  AsyncStorage.getItem('prevValue', (err, result) => {
+    console.log(prevalue);
+    setPrevalue(result);
+  });
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>This is profile</Text>
-      <Text>{props.route.params.myValue}</Text>
+      <Text>{props.route?.params?.myValue}</Text>
       <>
         {prevalue ? (
           <>

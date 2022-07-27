@@ -10,6 +10,7 @@ interface Props {
 
 const HomeScreen = ({navigation}: Props) => {
   const [myValue, setmyValue] = useState('');
+  const [myData, setMyData] = useState('');
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Home Screen</Text>
@@ -18,7 +19,13 @@ const HomeScreen = ({navigation}: Props) => {
         style={{height: 20, backgroundColor: 'white', width: 100}}
         onChangeText={value => {
           setmyValue(value);
-          AsyncStorage.setItem('prevValue', value, () => {});
+          AsyncStorage.setItem('prevValue', value, () => {
+            AsyncStorage.getItem('prevValue', (err, result) =>
+              setMyData(result),
+            );
+            console.log(myData);
+            console.log(value + '들어감');
+          });
         }}
       />
       <Button
