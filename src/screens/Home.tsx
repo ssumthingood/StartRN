@@ -18,9 +18,7 @@ const HomeScreen = ({navigation}: Props) => {
         style={{height: 20, backgroundColor: 'white', width: 100}}
         onChangeText={value => {
           setmyValue(value);
-          AsyncStorage.setItem('prevValue', value, () => {
-            console.log(value);
-          });
+          AsyncStorage.setItem('prevValue', value, () => {});
         }}
       />
       <Button
