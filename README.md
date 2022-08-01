@@ -151,3 +151,6 @@ https://zeph1e.tistory.com/42?category=338725
 
 \*INTERNAL STORAGE IN ANDROID
 https://themach.tistory.com/164
+
+\*SPALSH SCREEN IN ANDROID
+https://lanace.github.io/articles/right-way-on-splash/
