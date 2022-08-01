@@ -145,4 +145,9 @@ initWebView();                      // 웹뷰 초기화
 .canGoBack()
 .goBack()
 
-\*.ics file IMPORT IN ANDROID
+\*CALENDER APP CONTACT IN ANDROID
+https://zeph1e.tistory.com/34
+https://zeph1e.tistory.com/42?category=338725
+
+\*INTERNAL STORAGE IN ANDROID
+https://themach.tistory.com/164
