@@ -2,18 +2,19 @@ import React, {useState} from 'react';
 import {Button, View, Text, TextInput, SafeAreaView} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {StackParamList} from '../NavStack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Props {
-  navigation: StackNavigationProp<StackParamList, 'Main'>;
+  navigation: StackNavigationProp<StackParamList, 'Mypage'>;
 }
 
-const StartScreen = ({navigation}: Props) => {
+const SignupScreen = ({navigation}: Props) => {
   const [id, setId] = useState('');
+  const [pw, setPw] = useState('');
   return (
     <SafeAreaView>
       <View>
-        <Text>Start Screen</Text>
+        <Text>Signup Screen</Text>
+        <Text>ID</Text>
         <TextInput
           value={id}
           style={{height: 20, backgroundColor: 'white', width: 100}}
@@ -21,19 +22,21 @@ const StartScreen = ({navigation}: Props) => {
             setId(value);
           }}
         />
-        <Button
-          title="Login"
-          onPress={() => {
-            AsyncStorage.setItem('user', id);
-            setId('');
-            navigation.navigate('Main');
+        <Text>Password</Text>
+        <TextInput
+          secureTextEntry={true}
+          value={pw}
+          style={{height: 20, backgroundColor: 'white', width: 100}}
+          onChangeText={value => {
+            setPw(value);
           }}
         />
         <Button
           title="Signup"
           onPress={() => {
             setId('');
-            navigation.navigate('Signup');
+            setPw('');
+            navigation.navigate('Start');
           }}
         />
       </View>
@@ -41,6 +44,6 @@ const StartScreen = ({navigation}: Props) => {
   );
 };
 
-export default StartScreen;
+export default SignupScreen;
 
 /* src/screens/Home.js */
