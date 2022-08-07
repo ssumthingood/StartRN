@@ -24,7 +24,17 @@ const {height: SCREEN_HEIGHT, width: SCREEN_WIDTH} = Dimensions.get('window');
 const MypageScreen = ({navigation}: Props) => {
   const [myName, setmyName] = useState<String | null | undefined>();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const handleModal = () => setIsModalVisible(() => !isModalVisible);
+  // const handleModal = () => setIsModalVisible(() => !isModalVisible);
+  const handleModal = () => {
+    if (isModalVisible) {
+      setIsSendVisible(() => false);
+      setIsModalVisible(() => !isModalVisible);
+    } else {
+      setIsModalVisible(() => !isModalVisible);
+    }
+  };
+  const [isSendVisible, setIsSendVisible] = useState(false);
+  const handleSend = () => setIsSendVisible(() => !isSendVisible);
   AsyncStorage.getItem('user', (err, result) => {
     setmyName(result);
   });
@@ -38,24 +48,44 @@ const MypageScreen = ({navigation}: Props) => {
             handleModal();
           }}
         />
-        <Text>{myName}</Text>
         <Modal isVisible={isModalVisible} style={styles.modal}>
           <SafeAreaView>
-            <Text>내 쪽지함</Text>
             <ScrollView>
-              {['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'].map(
-                (message, index) => (
-                  <View>
-                    <TouchableOpacity key={index} style={styles.message}>
-                      <Text>{message}</Text>
-                    </TouchableOpacity>
-                  </View>
-                ),
+              {isSendVisible ? (
+                <View style={styles.messagecage}>
+                  <Text>쪽지 보내기</Text>
+                  <Text>받는 사람 : John Doe</Text>
+                  <TextInput
+                    multiline={true}
+                    numberOfLines={20}
+                    style={styles.messageinput}
+                  />
+                  <Button title="Send" onPress={handleModal} />
+                </View>
+              ) : (
+                <View style={styles.messagecage}>
+                  <Text>내 쪽지함</Text>
+                  {['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'].map(
+                    (message, index) => (
+                      <TouchableOpacity
+                        key={index}
+                        style={styles.message}
+                        onPress={handleSend}>
+                        <Text>{message}</Text>
+                      </TouchableOpacity>
+                    ),
+                  )}
+                </View>
               )}
             </ScrollView>
             <Button title="Cancel" onPress={handleModal} />
           </SafeAreaView>
         </Modal>
+        <View>
+          <Text>이름 : {myName}</Text>
+          <Text>관심분야</Text>
+          <Text>My Albums</Text>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -72,14 +102,15 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
   },
-  albumsong: {
-    width: SCREEN_WIDTH - 20,
-    height: 30,
-    marginVertical: 3,
-    marginHorizontal: 10,
-    borderColor: 'blue',
+  messageinput: {
+    width: SCREEN_WIDTH - 80,
+    marginVertical: 5,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderColor: 'black',
     borderWidth: 1,
   },
+  messagecage: {},
   custombutton: {
     width: SCREEN_WIDTH,
     height: 40,
