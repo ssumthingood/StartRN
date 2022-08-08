@@ -68,11 +68,11 @@ const MainScreen = ({navigation}: Props) => {
                 </TouchableOpacity>
                 <Text>Album Name</Text>
                 <Text>Description</Text>
-                <Text style={styles.albumsong}>1st Song</Text>
+                {/* <Text style={styles.albumsong}>1st Song</Text>
                 <Text style={styles.albumsong}>2nd Song</Text>
                 <Text style={styles.albumsong}>3rd Song</Text>
                 <Text style={styles.albumsong}>4th Song</Text>
-                <Text style={styles.albumsong}>5th Song</Text>
+                <Text style={styles.albumsong}>5th Song</Text> */}
               </View>
             ),
           )}
@@ -94,6 +94,12 @@ const MainScreen = ({navigation}: Props) => {
           }}
         />
         <Text>Rising Post</Text>
+        <Button
+          title="Community"
+          onPress={() => {
+            navigation.navigate('Community');
+          }}
+        />
       </ScrollView>
     </SafeAreaView>
   );

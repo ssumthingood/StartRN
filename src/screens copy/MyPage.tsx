@@ -85,6 +85,19 @@ const MypageScreen = ({navigation}: Props) => {
           <Text>이름 : {myName}</Text>
           <Text>관심분야</Text>
           <Text>My Albums</Text>
+          {['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'].map(
+            (message, index) => (
+              <TouchableOpacity
+                key={index}
+                style={styles.myalbums}
+                onPress={() => {
+                  const albumNumber = index;
+                  navigation.navigate('Album', {albumNumber: albumNumber});
+                }}>
+                <Text>{message}</Text>
+              </TouchableOpacity>
+            ),
+          )}
         </View>
       </View>
     </SafeAreaView>
@@ -130,6 +143,16 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     borderColor: 'black',
     backgroundColor: 'white',
+  },
+  myalbums: {
+    width: 40,
+    height: 40,
+    marginVertical: 10,
+    marginHorizontal: 40,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderColor: 'black',
+    borderWidth: 1,
   },
   // mainalbum: {
   //   alignItems: 'center',
