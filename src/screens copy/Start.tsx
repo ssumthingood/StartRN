@@ -11,15 +11,15 @@ interface Props {
 const StartScreen = ({navigation}: Props) => {
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
+  const [isuser, setIsuser] = useState(false);
   useEffect(() => {
-    const user = AsyncStorage.getItem('user', (err, result) => {
-      return result;
+    AsyncStorage.getItem('user', (err, result) => {
+      if (result !== null) setIsuser(true);
     });
-    // if (user !== null) {
-    //   console.log('notnull');
-    //   navigation.navigate('Main');
-    // }
-  }, []);
+    if (isuser) {
+      navigation.navigate('Main');
+    }
+  }, [isuser]);
   return (
     <SafeAreaView>
       <View>
