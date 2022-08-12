@@ -43,12 +43,26 @@ const MypageScreen = ({navigation}: Props) => {
       <View>
         <Text>MyPage Screen</Text>
         <Button
-          title="Slip"
+          title="LogOut"
+          onPress={() => {
+            AsyncStorage.clear();
+            navigation.navigate('Start');
+          }}
+        />
+        <Button
+          title="쪽지"
           onPress={() => {
             handleModal();
           }}
         />
         <Modal isVisible={isModalVisible} style={styles.modal}>
+          <Button
+            title="쪽지 보내기"
+            onPress={() => {
+              handleModal();
+              navigation.navigate('Messages');
+            }}
+          />
           <SafeAreaView>
             <ScrollView>
               {isSendVisible ? (
@@ -136,10 +150,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: SCREEN_WIDTH - 40,
     height: SCREEN_HEIGHT - 60,
-    marginVertical: 30,
+    marginVertical: 60,
     marginHorizontal: 20,
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 30,
     borderRadius: 15,
     borderColor: 'black',
     backgroundColor: 'white',

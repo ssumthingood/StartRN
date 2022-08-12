@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, View, Text, TextInput, SafeAreaView, Alert} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {StackParamList} from '../NavStack';
@@ -11,6 +11,15 @@ interface Props {
 const StartScreen = ({navigation}: Props) => {
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
+  useEffect(() => {
+    const user = AsyncStorage.getItem('user', (err, result) => {
+      return result;
+    });
+    // if (user !== null) {
+    //   console.log('notnull');
+    //   navigation.navigate('Main');
+    // }
+  }, []);
   return (
     <SafeAreaView>
       <View>
@@ -48,6 +57,7 @@ const StartScreen = ({navigation}: Props) => {
             } else {
               AsyncStorage.setItem('user', id);
               setId('');
+              setPw('');
               navigation.navigate('Main');
             }
           }}
